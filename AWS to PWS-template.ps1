@@ -13,6 +13,24 @@ $apiKey = "FILL-ME-IN"
 $runAsUser = "apiuser"
 $systemName = "FILL-ME-IN"
 
+#Used to bypass any cert errors.
+#region Trust All Certificates
+#Uncomment the following block if you want to trust an unsecure connection when pointing to local Password Cache.
+#
+#The Invoke-RestMethod CmdLet does not currently have an option for ignoring SSL warnings (i.e self-signed CA certificates).
+#This policy is a temporary workaround to allow that for development purposes.
+#Warning: If using this policy, be absolutely sure the host is secure.
+add-type "
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {
+    public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request, int certificateProblem)
+    {
+        return true;
+    }
+}
+";
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy;
 
 # Create AWS credentials using the provided access key and secret key
 $awsCredentials = New-Object -TypeName Amazon.Runtime.BasicAWSCredentials -ArgumentList $awsAccessKey, $awsSecretKey
