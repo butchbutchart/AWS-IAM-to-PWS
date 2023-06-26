@@ -11,7 +11,7 @@ $awsGroup = "FILL-ME-IN"  # Replace with your desired AWS group
 $baseUrl = "FILL-ME-IN"
 $apiKey = "FILL-ME-IN"
 $runAsUser = "apiuser"
-$systemName = "FILL-ME-IN"
+$systemName = "FILL-ME-IN" # managed system in Password Safe that the accounts will be added to
 
 #Used to bypass any cert errors.
 #region Trust All Certificates
