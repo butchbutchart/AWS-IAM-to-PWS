@@ -48,10 +48,6 @@ Start-Sleep -Seconds 10
 # Retrieve the AWS credential report
 $report = Get-IAMCredentialReport -AsTextArray
 
-# Convert the report CSV to an array
-$reportArray = $report | ConvertFrom-Csv
-
-
 # Build the Authorization header
 $headers = @{ Authorization="PS-Auth key=${apiKey}; runas=${runAsUser}" }
 
