@@ -1,11 +1,11 @@
-﻿# Import the AWS Tools for PowerShell module
+﻿# Import the AWS Tools for PowerShell module make sure to install if not already installed
 Import-Module -Name AWSPowerShell.NetCore
 
 # Set your AWS credentials (replace with your own values)
 $awsAccessKey = "FILL-ME-IN"
 $awsSecretKey = "FILL-ME-IN"
 $awsRegion = "Global"  # Replace with your desired AWS region
-$awsGroup = "Managed-Test"  # Replace with your desired AWS group
+$awsGroup = "FILL-ME-IN"  # Replace with your desired AWS group
 
 # Set the BeyondTrust API details (replace with your own values)
 $baseUrl = "FILL-ME-IN"
