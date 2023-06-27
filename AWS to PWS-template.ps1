@@ -1,9 +1,7 @@
 # Import the AWS Tools for PowerShell module
 Import-Module -Name AWSPowerShell.NetCore
 
-# Set your AWS credentials (replace with your own values)
-$awsAccessKey = "FILL-ME-IN"
-$awsSecretKey = "FILL-ME-IN"
+# Set your AWS variables (replace with your own values)
 $awsRegion = "Global"  # Replace with your desired AWS region
 $awsGroup = "FILL-ME-IN"
 
@@ -13,11 +11,22 @@ $apiKey = "FILL-ME-IN"
 $runAsUser = "FILL-ME-IN" # API User
 $systemName = "FILL-ME-IN" # Password Safe managed system where IAM users will be added
 
-# Create AWS credentials using the provided access key and secret key
-$awsCredentials = New-Object -TypeName Amazon.Runtime.BasicAWSCredentials -ArgumentList $awsAccessKey, $awsSecretKey
+# Set the IAM role ARN you want to assume
+$roleArn = "arn:aws:iam::123456789012:role/YourRoleName" # Replace with your IAM role ARN
 
+# Set the session name for assuming the role
+$roleSessionName = "AssumeRoleSession" # Replace with a desired session name
+
+# Assume the IAM role and retrieve temporary credentials
+$stsAssumeRoleResponse = (Get-STSCallerIdentity).ResponseMetadata.RequestId
+$stsCredentials = $stsAssumeRoleResponse.Credentials
+
+# Create AWS session credentials using the assumed role credentials
+$awsCredentials = New-Object -TypeName Amazon.Runtime.SessionAWSCredentials -ArgumentList `
+    $stsCredentials.AccessKeyId, $stsCredentials.SecretAccessKey, $stsCredentials.SessionToken
+	
 # Set AWS credentials and region in the AWS Tools for PowerShell module
-Set-AWSCredentials -AccessKey $awsAccessKey -SecretKey $awsSecretKey
+Set-AWSCredentials -Credentials $awsCredentials
 Set-DefaultAWSRegion -Region $awsRegion
 
 # Request the AWS credential report
